@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+<head>
+<title>Danvers Household Income</title>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dimple/2.1.6/dimple.latest.min.js"></script>
+
+<style>
+body {
+    background-color: rgb(252,245,223);
+}
+
+#HHLineChart {    
+	float: right;
+	top:10px;
+	left:10px;
+	width: 100%;
+	height: 300px
+	background-color: rgb(252,245,223);
+}
+</style>
+</head>
+<body>
+<div id="HHLineChart"></div>
+  <script type="text/javascript">
+//Start HHLine Chart
+      var svgHHLine = dimple.newSvg("#HHLineChart", "100%", "100%");
+      var data = [
+	  {"Year" : "1980",	"Income" : 67102, "Population" : 24100},
+	  {"Year" : "1990",	"Income" : 84518, "Population" : 24174},
+	  {"Year" : "2000",	"Income" : 86168, "Population" : 25212},
+	  {"Year" : "2010",	"Income" : 87185, "Population" : 26493},
+	  {"Year" : "2018",	"Income" : 92578, "Population" : 28020},
+	  {"Year" : "2023",	"Income" : 104006, "Population" : 28939},
+	  ];
+      var HHLineChart = new dimple.chart(svgHHLine, data);
+	  HHLineChart.setBounds("10%", "10%", "72%", "75%");
+      var x = HHLineChart.addCategoryAxis("x", "Year");
+      var y1 = HHLineChart.addMeasureAxis("y", "Population");
+	 
+      var y2 = HHLineChart.addMeasureAxis("y", "Income");
+		
+	  y2.tickFormat = '$,.0f';
+	  y1.fontSize = "11px";
+	  y2.fontSize = "11px";
+	  x.fontSize = "13px";
+	
+      var bars = HHLineChart.addSeries(null, dimple.plot.bar, [x,y2]);
+	  bars.barGap = 0.25;
+      var s = HHLineChart.addSeries(null, dimple.plot.line, [x, y1]);
+
+      s.interpolation = "cardinal";
+      s.lineMarkers = true;
+	  s.lineWeight = 4;
+      x.addOrderRule("Date");
+      HHLineChart.draw();
+	  y1.tickFormat = ",.2f";
+	  
+      y2.tickFormat = ",.0f";
+	  
+   window.onresize = function resize () {
+    HHLineChart.draw(0, true);
+   };   
+        
+</script>
+</body>
+</html>
